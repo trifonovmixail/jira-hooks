@@ -23,8 +23,8 @@ func manyHooks(request *http.Request) int {
     }
 
     switch hook.(type) {
-    case hooks.CreateIssuePayload:
-        payload := hook.(hooks.CreateIssuePayload)
+    case hooks.IssueCreatedPayload:
+        payload := hook.(hooks.IssueCreatedPayload)
     case hooks.TransitionIssueStatusPayload:
         payload := hook.(hooks.TransitionIssueStatusPayload)
     }
