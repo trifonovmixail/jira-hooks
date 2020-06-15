@@ -62,7 +62,7 @@ Payloads:
 Payloads:
 * CreateIssuePayload
 
-### IssueCreatedEvent
+### IssueUpdatedEvent
 Payloads:
 * IssueGenericPayload
 * IssueUpdatedPayload
