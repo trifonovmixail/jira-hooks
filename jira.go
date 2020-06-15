@@ -38,7 +38,7 @@ func parsing(hook *hook, payload []byte) (interface{}, error) {
 		}
 		return nil, ErrParsingPayload
 	case IssueCreatedEvent:
-		var pl CreateIssuePayload
+		var pl IssueCreatedPayload
 		if err := unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
@@ -83,7 +83,7 @@ func parsing(hook *hook, payload []byte) (interface{}, error) {
 			return nil, ErrParsingPayload
 		}
 	case IssueDeletedEvent:
-		var pl DeleteIssuePayload
+		var pl IssueDeletedPayload
 		if err := unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}

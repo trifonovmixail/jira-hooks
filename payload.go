@@ -51,8 +51,8 @@ type issueCommentPayload struct {
 	Comment *objects.Comment  `json:"comment"`
 }
 
-type CreateIssuePayload issuePayload
-type DeleteIssuePayload issuePayload
+type IssueCreatedPayload issuePayload
+type IssueDeletedPayload issuePayload
 
 type IssueGenericPayload issueUpdatedPayload
 type IssueUpdatedPayload issueUpdatedPayload

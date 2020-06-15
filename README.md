@@ -60,7 +60,7 @@ Payloads:
 
 ### IssueCreatedEvent
 Payloads:
-* CreateIssuePayload
+* IssueCreatedPayload
 
 ### IssueUpdatedEvent
 Payloads:
@@ -73,7 +73,7 @@ Payloads:
 
 ### IssueDeletedEvent
 Payloads:
-* DeleteIssuePayload
+* IssueDeletedPayload
 
 ### IssueWorkLogEvent
 Payloads:
