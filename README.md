@@ -255,3 +255,6 @@ Payloads:
 ### OptionUnassignedIssuesChangedEvent
 Payloads:
 * OptionUnassignedIssuesChangedPayload
+
+# Debugging
+You can debug request from jira, use `hooks.DebugRequest = true` for this.
