@@ -85,6 +85,7 @@ type Attachment struct {
 
 type IssueFields struct {
 	Type                          *IssueType        `json:"issuetype"`
+	Parent                        *SubTask          `json:"parent"`
 	Project                       *Project          `json:"project"`
 	Resolution                    *Resolution       `json:"resolution"`
 	Priority                      *Priority         `json:"priority"`
