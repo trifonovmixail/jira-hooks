@@ -16,4 +16,6 @@ const (
 	issueWorkLogCreatedAction = action("issue_work_logged")
 	issueWorkLogUpdatedAction = action("issue_worklog_updated")
 	issueWorkLogDeletedAction = action("issue_worklog_deleted")
+
+	issueMovedAction = action("issue_moved")
 )

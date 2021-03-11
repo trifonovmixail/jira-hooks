@@ -108,6 +108,12 @@ func parsing(hook *hook, payload []byte) (interface{}, error) {
 				return pl, nil
 			}
 			return nil, ErrParsingPayload
+		case issueMovedAction:
+			var pl IssueMovedPayload
+			if err := unmarshalJson(payload, &pl); err == nil {
+				return pl, nil
+			}
+			return nil, ErrParsingPayload
 		}
 	case CommentCreatedEvent:
 		var pl CommentCreatedPayload
