@@ -70,6 +70,7 @@ Payloads:
 * IssueCommentUpdatedPayload
 * IssueCommentDeletedPayload
 * IssueAssignedPayload
+* IssueMovedPayload
 
 ### IssueDeletedEvent
 Payloads:
