@@ -38,11 +38,20 @@ type Component struct {
 }
 
 type Status struct {
-	Self        string `json:"self"`
-	Description string `json:"description"`
-	IconURL     string `json:"iconUrl"`
-	Name        string `json:"name"`
-	ID          string `json:"id"`
+	Self           string         `json:"self"`
+	Description    string         `json:"description"`
+	IconURL        string         `json:"iconUrl"`
+	Name           string         `json:"name"`
+	ID             string         `json:"id"`
+	StatusCategory StatusCategory `json:"statusCategory"`
+}
+
+type StatusCategory struct {
+	Self      string `json:"self" structs:"self"`
+	ID        int    `json:"id" structs:"id"`
+	Name      string `json:"name" structs:"name"`
+	Key       string `json:"key" structs:"key"`
+	ColorName string `json:"colorName" structs:"colorName"`
 }
 
 type Progress struct {
