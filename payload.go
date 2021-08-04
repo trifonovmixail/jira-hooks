@@ -42,6 +42,7 @@ type issueUpdatedPayload struct {
 	User      *objects.User      `json:"user"`
 	Issue     *objects.Issue     `json:"issue"`
 	ChangeLog *objects.ChangeLog `json:"changelog"`
+	Comment   *objects.Comment   `json:"comment"`
 }
 
 type issueCommentPayload struct {
