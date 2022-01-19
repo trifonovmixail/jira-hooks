@@ -87,6 +87,12 @@ func parsing(hook *hook, payload []byte) (interface{}, error) {
 				return pl, nil
 			}
 			return nil, ErrParsingPayload
+		case issueClosedAction:
+			var pl IssueClosedPayload
+			if err := unmarshalJson(payload, &pl); err == nil {
+				return pl, nil
+			}
+			return nil, ErrParsingPayload
 		}
 	case IssueDeletedEvent:
 		var pl IssueDeletedPayload

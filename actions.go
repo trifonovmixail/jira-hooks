@@ -18,4 +18,6 @@ const (
 	issueWorkLogDeletedAction = action("issue_worklog_deleted")
 
 	issueMovedAction = action("issue_moved")
+
+	issueClosedAction = action("issue_closed")
 )
