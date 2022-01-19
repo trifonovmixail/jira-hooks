@@ -69,6 +69,8 @@ type IssueWorkLogDeletedPayload issueUpdatedPayload
 
 type IssueMovedPayload issueUpdatedPayload
 
+type IssueClosedPayload issueUpdatedPayload
+
 // WorkLogs
 
 type workLogPayload struct {
