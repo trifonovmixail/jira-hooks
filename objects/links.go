@@ -1,7 +1,7 @@
 package objects
 
 type LinkType struct {
-	ID          int    `json:"id"`
+	ID          string `json:"id"`
 	Self        string `json:"self"`
 	Name        string `json:"name"`
 	Inward      string `json:"inward"`
@@ -13,11 +13,22 @@ type LinkType struct {
 }
 
 type Link struct {
-	ID                 int       `json:"id"`
+	ID                 string    `json:"id"`
 	Self               string    `json:"self"`
 	OutwardIssue       *Issue    `json:"outwardIssue"`
 	SourceIssueID      int       `json:"sourceIssueId"`
 	DestinationIssueID int       `json:"destinationIssueId"`
 	Type               *LinkType `json:"issueLinkType"`
 	SystemLink         bool      `json:"systemLink"`
+}
+
+type LinkPayloadLinkType struct {
+	ID int `json:"id"`
+	LinkType
+}
+
+type LinkPayloadLink struct {
+	ID   int                  `json:"id"`
+	Type *LinkPayloadLinkType `json:"issueLinkType"`
+	Link
 }
