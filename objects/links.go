@@ -1,7 +1,7 @@
 package objects
 
 type LinkType struct {
-	ID          string `json:"id"`
+	ID          int    `json:"id"`
 	Self        string `json:"self"`
 	Name        string `json:"name"`
 	Inward      string `json:"inward"`
