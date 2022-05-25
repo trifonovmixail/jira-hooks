@@ -13,7 +13,7 @@ type LinkType struct {
 }
 
 type Link struct {
-	ID                 string    `json:"id"`
+	ID                 int       `json:"id"`
 	Self               string    `json:"self"`
 	OutwardIssue       *Issue    `json:"outwardIssue"`
 	SourceIssueID      int       `json:"sourceIssueId"`
