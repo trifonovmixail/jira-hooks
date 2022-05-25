@@ -97,8 +97,8 @@ type CommentDeletedPayload commentPayload
 // Links
 
 type linkPayload struct {
-	Time objects.Timestamp `json:"timestamp"`
-	Link *objects.Link     `json:"issueLink"`
+	Time objects.Timestamp        `json:"timestamp"`
+	Link *objects.LinkPayloadLink `json:"issueLink"`
 }
 
 type LinkCreatedPayload linkPayload
