@@ -40,6 +40,6 @@ func (t *Timestamp) UnmarshalJSON(b []byte) error {
 	if err != nil {
 		return err
 	}
-	*t = Timestamp(time.Unix(i, 0))
+	*t = Timestamp(time.UnixMilli(i))
 	return nil
 }
