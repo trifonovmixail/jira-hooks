@@ -10,7 +10,7 @@ import (
 func createHookFromRequest(request *http.Request) (*hook, []byte, error) {
 	payload, err := ioutil.ReadAll(request.Body)
 	if err != nil || len(payload) == 0 {
-		return nil, nil, ErrParsingPayload
+		return nil, nil, NewErrParsingPayload(err)
 	}
 	if DebugRequest {
 		debugRequest(payload)
@@ -18,7 +18,7 @@ func createHookFromRequest(request *http.Request) (*hook, []byte, error) {
 
 	hook := &hook{}
 	if err := unmarshalJson(payload, hook); err != nil {
-		return nil, nil, ErrParsingPayload
+		return nil, nil, NewErrParsingPayload(err)
 	}
 	if hook.isEmpty() && isTransitionIssueStatusPayload(payload) {
 		hook.Event = StatusTransitionEvent
@@ -28,321 +28,322 @@ func createHookFromRequest(request *http.Request) (*hook, []byte, error) {
 }
 
 func parsing(hook *hook, payload []byte) (interface{}, error) {
+	var err error
 	switch hook.Event {
 	case StatusTransitionEvent:
 		var pl TransitionIssueStatusPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			if !pl.isEmpty() {
 				return pl, nil
 			}
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case IssueCreatedEvent:
 		var pl IssueCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case IssueUpdatedEvent:
 		switch hook.Action {
 		case issueGenericAction:
 			var pl IssueGenericPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueUpdatedAction:
 			var pl IssueUpdatedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueCommentCreatedAction:
 			var pl IssueCommentCreatedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueCommentUpdatedAction:
 			var pl IssueCommentUpdatedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueCommentDeletedAction:
 			var pl IssueCommentDeletedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueAssignedAction:
 			var pl IssueAssignedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueMovedAction:
 			var pl IssueMovedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueClosedAction:
 			var pl IssueClosedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		}
 	case IssueDeletedEvent:
 		var pl IssueDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case IssueWorkLogEvent:
 		switch hook.Action {
 		case issueWorkLogCreatedAction:
 			var pl IssueWorkLogCreatedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueWorkLogUpdatedAction:
 			var pl IssueWorkLogUpdatedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		case issueWorkLogDeletedAction:
 			var pl IssueWorkLogDeletedPayload
-			if err := unmarshalJson(payload, &pl); err == nil {
+			if err = unmarshalJson(payload, &pl); err == nil {
 				return pl, nil
 			}
-			return nil, ErrParsingPayload
+			return nil, NewErrParsingPayload(err)
 		}
 	case CommentCreatedEvent:
 		var pl CommentCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case CommentUpdatedEvent:
 		var pl CommentUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case CommentDeletedEvent:
 		var pl CommentDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case WorkLogCreatedEvent:
 		var pl WorkLogCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case WorkLogUpdatedEvent:
 		var pl WorkLogUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case WorkLogDeletedEvent:
 		var pl WorkLogDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case LinkCreatedEvent:
 		var pl LinkCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case LinkDeletedEvent:
 		var pl LinkDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case UserCreatedEvent:
 		var pl UserCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case UserUpdatedEvent:
 		var pl UserUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case UserDeletedEvent:
 		var pl UserDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case ProjectCreatedEvent:
 		var pl ProjectCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case ProjectUpdatedEvent:
 		var pl ProjectUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case ProjectDeletedEvent:
 		var pl ProjectDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case ProjectArchivedEvent:
 		var pl ProjectArchivedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case ProjectRestoredEvent:
 		var pl ProjectRestoredPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case BoardCreatedEvent:
 		var pl BoardCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case BoardUpdatedEvent:
 		var pl BoardUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case BoardDeletedEvent:
 		var pl BoardDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case BoardConfigurationChangedEvent:
 		var pl BoardConfigurationChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case SprintCreatedEvent:
 		var pl SprintCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case SprintUpdatedEvent:
 		var pl SprintUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case SprintDeletedEvent:
 		var pl SprintDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case SprintStartedEvent:
 		var pl SprintStartedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case SprintClosedEvent:
 		var pl SprintClosedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case VersionCreatedEvent:
 		var pl VersionCreatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case VersionUpdatedEvent:
 		var pl VersionUpdatedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case VersionDeletedEvent:
 		var pl VersionDeletedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case VersionReleasedEvent:
 		var pl VersionReleasedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case VersionUnreleasedEvent:
 		var pl VersionUnreleasedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionTimeTrackingChangedEvent:
 		var pl OptionTimeTrackingChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionIssueLinksChangedEvent:
 		var pl OptionIssueLinksChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionSubTasksChangedEvent:
 		var pl OptionSubTasksChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionAttachmentsChangedEvent:
 		var pl OptionAttachmentsChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionWatchingChangedEvent:
 		var pl OptionWatchingChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionVotingChangedEvent:
 		var pl OptionVotingChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	case OptionUnassignedIssuesChangedEvent:
 		var pl OptionUnassignedIssuesChangedPayload
-		if err := unmarshalJson(payload, &pl); err == nil {
+		if err = unmarshalJson(payload, &pl); err == nil {
 			return pl, nil
 		}
-		return nil, ErrParsingPayload
+		return nil, NewErrParsingPayload(err)
 	}
 
 	return nil, errors.New(

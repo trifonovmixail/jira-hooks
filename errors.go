@@ -2,10 +2,16 @@ package jira_hooks
 
 import (
 	"errors"
+	"fmt"
 )
 
 var (
 	ErrEventNotFound            = errors.New("event not found")
-	ErrParsingPayload           = errors.New("error parsing payload")
 	ErrEventNotSpecifiedToParse = errors.New("no event specified to parse")
 )
+
+type ErrParsingPayload error
+
+func NewErrParsingPayload(err interface{}) ErrParsingPayload {
+	return errors.New(fmt.Sprintf("error parsing payload, description: %s", err))
+}
