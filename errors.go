@@ -13,5 +13,5 @@ var (
 type ErrParsingPayload error
 
 func NewErrParsingPayload(err interface{}) ErrParsingPayload {
-	return errors.New(fmt.Sprintf("error parsing payload, description: %s", err))
+	return errors.New(fmt.Sprintf("error parsing payload,\n description: %s", err))
 }
