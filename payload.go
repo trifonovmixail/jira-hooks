@@ -52,6 +52,13 @@ type issueCommentPayload struct {
 	Comment *objects.Comment  `json:"comment"`
 }
 
+type issueResolvedPayload struct {
+	Time      objects.Timestamp  `json:"timestamp"`
+	User      *objects.User      `json:"user"`
+	Issue     *objects.Issue     `json:"issue"`
+	ChangeLog *objects.ChangeLog `json:"changelog"`
+}
+
 type IssueCreatedPayload issuePayload
 type IssueDeletedPayload issuePayload
 
@@ -71,6 +78,7 @@ type IssueWorkLogDeletedPayload issueUpdatedPayload
 type IssueMovedPayload issueUpdatedPayload
 
 type IssueClosedPayload issueUpdatedPayload
+type IssueResolvedPayload issueResolvedPayload
 
 // WorkLogs
 

@@ -20,4 +20,6 @@ const (
 	issueMovedAction = action("issue_moved")
 
 	issueClosedAction = action("issue_closed")
+
+	issueResolvedAction = action("issue_resolved")
 )
