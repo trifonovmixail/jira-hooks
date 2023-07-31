@@ -1,7 +1,6 @@
 package objects
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -25,13 +24,12 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (t *Time) MarshalJSON() ([]byte, error) {
-	baseTime := time.Time(*t)
+func (t Time) MarshalJSON() ([]byte, error) {
+	baseTime := time.Time(t)
 	if baseTime.IsZero() {
 		return []byte("null"), nil
 	}
-	res := []byte(baseTime.Format(timeLayout))
-	return res, nil
+	return []byte(baseTime.Format(timeLayout)), nil
 }
 
 type Date time.Time
@@ -48,31 +46,25 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (d *Date) MarshalJSON() ([]byte, error) {
-	date := time.Time(*d)
+func (d Date) MarshalJSON() ([]byte, error) {
+	date := time.Time(d)
 	if date.IsZero() {
 		return []byte("null"), nil
 	}
-	res := []byte(date.Format(dateLayout))
-	return res, nil
+	return []byte(date.Format(dateLayout)), nil
 }
 
 type Timestamp time.Time
 
-func (t *Timestamp) UnmarshalJSON(b []byte) error {
+func (ts *Timestamp) UnmarshalJSON(b []byte) error {
 	i, err := strconv.ParseInt(string(b), 10, 64)
 	if err != nil {
 		return err
 	}
-	*t = Timestamp(time.Unix(i, 0))
+	*ts = Timestamp(time.Unix(i, 0))
 	return nil
 }
 
-func (t *Timestamp) MarshalJSON() ([]byte, error) {
-	println("Timestamp MarshalJSON")
-	res := []byte(strconv.FormatInt(time.Time(*t).Unix(), 10))
-	println("res", res)
-	res2 := []byte(fmt.Sprintf("%d", time.Time(*t).Unix()))
-	println("res2", res2)
-	return res2, nil
+func (ts Timestamp) MarshalJSON() ([]byte, error) {
+	return []byte(strconv.FormatInt(time.Time(ts).Unix(), 10)), nil
 }

@@ -1,7 +1,7 @@
 package jira_hooks
 
 import (
-	"github.com/monoel69/jira-hooks/objects"
+	"github.com/trifonovmixail/jira-hooks/objects"
 	"strings"
 )
 
