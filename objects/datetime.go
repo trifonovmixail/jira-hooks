@@ -28,9 +28,10 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 func (t *Time) MarshalJSON() ([]byte, error) {
 	baseTime := time.Time(*t)
 	if baseTime.IsZero() {
-		return nil, nil
+		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf(`"%s"`, baseTime.Format(timeLayout))), nil
+	res := []byte(baseTime.Format(timeLayout))
+	return res, nil
 }
 
 type Date time.Time
@@ -50,9 +51,10 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 func (d *Date) MarshalJSON() ([]byte, error) {
 	date := time.Time(*d)
 	if date.IsZero() {
-		return nil, nil
+		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf(`"%s"`, date.Format(dateLayout))), nil
+	res := []byte(date.Format(dateLayout))
+	return res, nil
 }
 
 type Timestamp time.Time
@@ -67,5 +69,10 @@ func (t *Timestamp) UnmarshalJSON(b []byte) error {
 }
 
 func (t *Timestamp) MarshalJSON() ([]byte, error) {
-	return []byte(strconv.FormatInt(time.Time(*t).Unix(), 10)), nil
+	println("Timestamp MarshalJSON")
+	res := []byte(strconv.FormatInt(time.Time(*t).Unix(), 10))
+	println("res", res)
+	res2 := []byte(fmt.Sprintf("%d", time.Time(*t).Unix()))
+	println("res2", res2)
+	return res2, nil
 }
